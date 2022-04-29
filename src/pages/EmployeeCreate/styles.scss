@@ -1,0 +1,43 @@
+.shape-create {
+
+    .title-area {
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    padding-bottom: 1rem;
+
+    button {
+        height: 2.5rem;
+        background-color: var(--fail-color);
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+   }
+
+form {
+    margin: 1.5rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    
+    .grid-form {
+    margin-bottom: 1.5rem;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    row-gap: 1.5rem;
+    column-gap: 2rem;
+
+    @media (max-width: 800px) {
+        grid-template-columns: 1fr; // ajusta a tela ao chegar aos 800px para apenas uma coluna (dentro da proporção da tela)
+    }
+    
+    .form-areas {
+        display: flex;
+    }
+   }
+   
+
+ }
+}

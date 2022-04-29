@@ -1,0 +1,146 @@
+import { useForm } from 'react-hook-form';
+import { useNavigate, useLocation } from 'react-router-dom'; //para voltar na página dos cadastrados
+import { v4 as uuidV4 } from 'uuid';
+
+import './styles.scss';
+
+import { Shape } from '../../components/Shape';
+import { Input } from '../../components/Form/Input';
+import { RadioButton } from '../../components/Form/RadioButton';
+import { FormArea } from '../../components/Form/FormArea';
+import { Checkbox } from '../../components/Form/Checkbox';
+import { Select } from '../../components/Form/Select';
+import { Button } from '../../components/Form/Button';
+
+import { phoneNumberMask, cpfMask, currencyMask, nameMask } from '../../utils/masks';
+import { EmployeeList } from '../EmployeeList';
+
+export function EmployeeCreate() {
+
+    const navigate = useNavigate(); //para voltar na página dos cadastrados
+    const { state: employee } = useLocation();
+
+    const { register, handleSubmit, formState: { errors } } = useForm({defaultValues: employee});
+
+  async function onSubmit(data) {
+      // GET - Listar dados
+      // POST - Criar um dado novo
+      // PUT - Alterar um dado
+      // DELETE - Deletar um dado
+      // PATCH - Alterações mais específicas (mudar imagem de usuário, por exemplo)
+
+      const localEmployees = JSON.parse(localStorage.getItem('@afrocrud:employees')) || [];    
+
+    let updateEmployees = localEmployees;  
+
+    if(data.id) {
+        updateEmployees = localEmployees.map(localEmployee => {
+          if(data.id === localEmployee.id) {
+            return data;
+          }
+
+          return localEmployee;
+        })
+      } else {
+        data.id = uuidV4();
+        updateEmployees = [...localEmployees, data];
+      }
+
+    localStorage.setItem('@afrocrud:employees', JSON.stringify(updateEmployees));
+
+    navigate('/');
+
+  }
+
+  async function handleRemove () {
+    const localEmployees = JSON.parse(localStorage.getItem('@afrocrud:employees')) || [];
+
+
+    const updatedEmployees = localEmployees.filter(localEmployees => localEmployees.id !== employee.id);
+
+    localStorage.setItem('@afrocrud:employees', JSON.stringify(updatedEmployees));
+
+    navigate ('/');
+  }
+
+
+    return (
+        <Shape className='shape-create'>
+      <div className="title-area">   
+        <h2>{!!employee ? 'Atualizar' : 'Criar'}</h2>
+        {!!employee && <Button title="Remover" onClick={handleRemove} />}
+ 
+      </div>
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <div className="grid-form">
+            <Input 
+              label="Nome"
+              mask={nameMask}
+              placeholder="Preencha o nome do funcionário"
+              error={errors.name}
+              {...register('name', { required: 'O nome é obrigatório' })}
+            />
+
+            <div className="form-areas">
+              <FormArea label="Sexo">
+                <RadioButton 
+                  title="Masculino"
+                  value="male"
+                  {...register('gender')}
+                />
+                <RadioButton
+                  title="Feminino"
+                  value="female"
+                  {...register('gender')}
+                />  
+              </FormArea>
+
+              <FormArea label="Status">
+                <Checkbox title="Ativo" {...register('status')}/>
+              </FormArea>
+            </div>
+
+            <Input 
+              label="CPF"
+              placeholder="Preencha o CPF do funcionário"
+              maxLength={14}
+              mask={cpfMask}
+              error={errors.cpf}
+              {...register('cpf', {
+                required: 'O CPF é obrigatório', 
+                minLength: { value: 14, message: 'Preencha o CPF corretamente' }
+              })}
+            />
+            <Input 
+              label="Telefone"
+              placeholder="Preencha o telefone do funcionário"
+              maxLength={15}
+              mask={phoneNumberMask}
+              error={errors.phoneNumber}
+              {...register('phoneNumber', {
+                required: 'O número de telefone é obrigatório',
+                minLength: { 
+                  value: 15, 
+                  message: 'Preencha o número de telefone corretamente'
+                }
+              })}
+            />
+            <Input 
+              label="Salário" 
+              placeholder="Preencha o salário do funcionário"
+              error={errors.salary}
+              mask={currencyMask}
+              defaultValue="R$ 0,00"
+              {...register('salary', { required: 'O salário é obrigatório'})}
+            />
+
+            <Select {...register('department')}/>
+          </div>
+
+          <Button title={!!employee ? 'Atualizar' : 'Adicionar'} icon="arrowRight"/>          
+          
+        </form>
+      </Shape>
+    )
+}

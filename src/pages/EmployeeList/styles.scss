@@ -1,0 +1,54 @@
+.shape-list {
+
+     margin-bottom: 2rem;   
+
+    .title-area {
+        padding-bottom: 1.25rem;
+        border-bottom: 1px solid var(--border-color);
+
+        display:flex;
+        align-items: center;
+
+        button {
+            height: 2.5rem;
+        }
+    }
+
+    table {
+        width: 100%;
+        margin-top: 2rem;
+        border-collapse: collapse;
+
+        thead {
+            font-family: 'Poppins';
+            color: var(--title-color);
+            text-transform: uppercase;
+            text-align: left;
+        }
+
+        tbody {
+            tr {
+                border-bottom: 1px solid var(--border-color);
+
+                cursor: pointer;
+
+                &:hover {
+                    background-color: var(--background-color);
+                }
+
+                td {
+                    padding: 0.5rem 0;
+
+                   > p {
+                        margin-bottom: 0.25rem;
+                    }
+
+                    span {
+                        font-size: 0.75rem;
+                        color: var(--detail-color);
+                    }
+                }
+            }
+        }
+    }
+}

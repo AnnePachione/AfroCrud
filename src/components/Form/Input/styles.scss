@@ -1,0 +1,29 @@
+.input {
+    display: flex;
+    flex-direction: column; //para o texto ficar em cima do espaço de formulário
+    font-weight: 500;
+
+    input {
+        height: 3rem;
+        font-size: 1rem;
+        border-radius: 0.25rem;
+        border: none;
+
+        padding: 0 1rem;
+        margin-top: 0.5rem;
+
+        background-color: var(--background-color);
+        color: var(--text-color);
+//& é como se repetisse o input
+        &::placeholder {
+            color: var(--placeholder-color);
+        }
+    }
+
+    span {
+        font-size: 0.75rem;
+        color: var(--fail-color);
+
+        margin-top: 0.25rem;
+    }
+ }
