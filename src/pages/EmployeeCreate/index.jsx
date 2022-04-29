@@ -13,7 +13,6 @@ import { Select } from '../../components/Form/Select';
 import { Button } from '../../components/Form/Button';
 
 import { phoneNumberMask, cpfMask, currencyMask, nameMask } from '../../utils/masks';
-import { EmployeeList } from '../EmployeeList';
 
 export function EmployeeCreate() {
 
